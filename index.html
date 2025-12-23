@@ -1628,29 +1628,40 @@
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
         let isPlaying = false;
+        let musicStarted = false;
 
-        // Try to play music on first user interaction
+        // Try to play music
         function startMusic() {
+            if (musicStarted) return;
             bgMusic.volume = 0.5;
             bgMusic.play().then(() => {
                 isPlaying = true;
+                musicStarted = true;
                 musicBtn.classList.add('playing');
+                removeInteractionListeners();
             }).catch(err => {
-                console.log('Music autoplay blocked - tap anywhere to play');
+                // Autoplay blocked - will try on interaction
             });
+        }
+
+        // Remove listeners after music starts
+        function removeInteractionListeners() {
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
+            document.removeEventListener('scroll', startMusic);
+            document.removeEventListener('touchmove', startMusic);
         }
 
         // Try autoplay on load
         window.addEventListener('load', () => {
-            setTimeout(startMusic, 500);
+            startMusic();
         });
 
-        // Start music on first interaction if autoplay blocked
-        document.addEventListener('click', () => {
-            if (!isPlaying) {
-                startMusic();
-            }
-        }, { once: true });
+        // Start music on ANY first interaction (touch, scroll, click)
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        document.addEventListener('scroll', startMusic);
+        document.addEventListener('touchmove', startMusic);
 
         function toggleMusic() {
             if (isPlaying) {
