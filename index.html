@@ -1032,81 +1032,6 @@
             opacity: 1;
         }
 
-        /* Intro Video Overlay */
-        .intro-video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-
-        .intro-video-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .intro-video-overlay video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .intro-video-overlay .tap-hint {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 0.9rem;
-            background: rgba(0,0,0,0.5);
-            padding: 10px 20px;
-            border-radius: 30px;
-            animation: pulse-hint 2s ease infinite;
-        }
-
-        @keyframes pulse-hint {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-
-        /* Sound Prompt */
-        .sound-prompt {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-            color: var(--primary-dark);
-            padding: 12px 24px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            z-index: 1001;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(212, 168, 83, 0.4);
-            animation: pulse-prompt 2s ease infinite;
-        }
-
-        .sound-prompt .sound-icon {
-            font-size: 1.2rem;
-        }
-
-        @keyframes pulse-prompt {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.05); }
-        }
 
         /* Music Control Button */
         .music-btn {
@@ -1304,13 +1229,6 @@
     </style>
 </head>
 <body>
-    <!-- Intro Video (plays for 7 seconds on welcome) -->
-    <div id="introVideoOverlay" class="intro-video-overlay">
-        <video id="introVideo" autoplay muted playsinline>
-            <source src="intro-music.mp4" type="video/mp4">
-        </video>
-        <p class="tap-hint">🔊 Tap for sound</p>
-    </div>
 
     <!-- Background Music - Wedding Card (plays after intro) -->
     <audio id="bgMusic" loop>
@@ -1706,52 +1624,33 @@
             });
         });
 
-        // Video & Music Control
-        const introVideo = document.getElementById('introVideo');
-        const introOverlay = document.getElementById('introVideoOverlay');
+        // Music Control
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
         let isPlaying = false;
 
-        // Function to show invitation card
-        function showInvitationCard() {
-            introOverlay.classList.add('hidden');
-            introVideo.pause();
+        // Try to play music on first user interaction
+        function startMusic() {
             bgMusic.volume = 0.5;
             bgMusic.play().then(() => {
                 isPlaying = true;
                 musicBtn.classList.add('playing');
             }).catch(err => {
-                console.log('Music autoplay blocked');
+                console.log('Music autoplay blocked - tap anywhere to play');
             });
         }
 
-        // When video ends, show invitation card
-        introVideo.addEventListener('ended', showInvitationCard);
-
-        // Also show card after 7 seconds (backup)
-        setTimeout(() => {
-            if (!introOverlay.classList.contains('hidden')) {
-                showInvitationCard();
-            }
-        }, 7500);
-
-        // Try to play video on load
+        // Try autoplay on load
         window.addEventListener('load', () => {
-            introVideo.play().catch(err => {
-                // If autoplay blocked, show invitation immediately
-                showInvitationCard();
-            });
+            setTimeout(startMusic, 500);
         });
 
-        // Tap to unmute video
-        introOverlay.addEventListener('click', () => {
-            introVideo.muted = false;
-            introVideo.play();
-            // Hide tap hint
-            const tapHint = introOverlay.querySelector('.tap-hint');
-            if (tapHint) tapHint.style.display = 'none';
-        });
+        // Start music on first interaction if autoplay blocked
+        document.addEventListener('click', () => {
+            if (!isPlaying) {
+                startMusic();
+            }
+        }, { once: true });
 
         function toggleMusic() {
             if (isPlaying) {
@@ -1870,4 +1769,5 @@
     </script>
 </body>
 </html>
+
 
