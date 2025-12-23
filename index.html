@@ -1076,12 +1076,13 @@
         .ganpati-section {
             text-align: center;
             margin-bottom: 1.5rem;
+            animation: fadeInDown 1s ease;
         }
 
         .ganpati-idol {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 1rem;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 0.8rem;
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
             border-radius: 50%;
             display: flex;
@@ -1089,7 +1090,7 @@
             justify-content: center;
             box-shadow: 0 10px 40px rgba(212, 168, 83, 0.4), 0 0 60px rgba(212, 168, 83, 0.2);
             animation: divine-glow 3s ease-in-out infinite;
-            padding: 8px;
+            padding: 6px;
             overflow: hidden;
         }
 
@@ -1099,12 +1100,6 @@
             object-fit: cover;
             border-radius: 50%;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        }
-
-        .ganpati-idol svg {
-            width: 80px;
-            height: 80px;
-            fill: var(--primary-dark);
         }
 
         @keyframes divine-glow {
@@ -1118,33 +1113,18 @@
 
         .ganpati-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            color: var(--gold-light);
+            font-size: 1rem;
+            color: var(--primary);
             font-style: italic;
             letter-spacing: 1px;
         }
 
         .om-symbol {
-            font-size: 2.5rem;
-            color: var(--gold-light);
-            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
             display: block;
-            text-shadow: 0 0 20px rgba(212, 168, 83, 0.5);
-        }
-
-        .shubh-vivah {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-top: 0.5rem;
-        }
-
-        .flower-divider {
-            color: var(--gold-light);
-            font-size: 1.2rem;
-            margin: 1rem 0;
-            opacity: 0.8;
+            text-shadow: 0 0 20px rgba(212, 168, 83, 0.3);
         }
     </style>
 </head>
@@ -1159,27 +1139,6 @@
         <source src="wedding-card.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Welcome Overlay -->
-    <div class="welcome-overlay" id="welcomeOverlay">
-        <!-- Ganpati Section -->
-        <div class="ganpati-section">
-            <span class="om-symbol">ॐ</span>
-            <div class="ganpati-idol">
-                <img src="ganpati.jpg" alt="Shri Ganesh">
-            </div>
-            <p class="ganpati-text">|| श्री गणेशाय नमः ||</p>
-            <p class="shubh-vivah">शुभ विवाह</p>
-        </div>
-        
-        <div class="flower-divider">✿ ❀ ✿</div>
-        
-        <h2>Gautam & Anshu</h2>
-        <p>Request the pleasure of your company</p>
-        <button class="enter-btn" onclick="enterSite()">
-            Open Invitation
-        </button>
-        <p class="music-note"><span>🎵</span> Tap to enter with Ganpati Vandana</p>
-    </div>
 
     <!-- Music Control Button -->
     <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle Music">
@@ -1235,7 +1194,16 @@
             </svg>
 
             <div class="hero-content">
-                <div class="wedding-badge">Wedding Invitation</div>
+                <!-- Ganpati Section -->
+                <div class="ganpati-section">
+                    <span class="om-symbol">ॐ</span>
+                    <div class="ganpati-idol">
+                        <img src="ganpati.jpg" alt="Shri Ganesh">
+                    </div>
+                    <p class="ganpati-text">|| श्री गणेशाय नमः ||</p>
+                </div>
+
+                <div class="wedding-badge">शुभ विवाह</div>
                 
                 <h1 class="couple-names">
                     Gautam
@@ -1542,22 +1510,28 @@
         const introMusic = document.getElementById('introMusic');
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
-        const welcomeOverlay = document.getElementById('welcomeOverlay');
         let isPlaying = false;
         let introTimeout;
+        let musicStarted = false;
 
-        function enterSite() {
+        // Start music on first user interaction
+        function startMusic() {
+            if (musicStarted) return;
+            musicStarted = true;
+
             // Play intro music first (for 7 seconds)
             introMusic.volume = 0.6;
             introMusic.play().then(() => {
                 isPlaying = true;
                 musicBtn.classList.add('playing');
             }).catch(err => {
-                console.log('Intro music error:', err);
+                // If intro fails, try wedding music directly
+                bgMusic.volume = 0.5;
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicBtn.classList.add('playing');
+                });
             });
-
-            // Hide welcome overlay
-            welcomeOverlay.classList.add('hidden');
 
             // After 7 seconds, switch to wedding music
             introTimeout = setTimeout(() => {
@@ -1568,7 +1542,15 @@
                     console.log('Background music error:', err);
                 });
             }, 7000);
+
+            // Remove listener after first interaction
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
         }
+
+        // Listen for first interaction
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
 
         function toggleMusic() {
             if (isPlaying) {
