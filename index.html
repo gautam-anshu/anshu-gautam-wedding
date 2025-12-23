@@ -1044,19 +1044,38 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.5s ease;
+            flex-direction: column;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
         .intro-video-overlay.hidden {
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            z-index: -1;
         }
 
         .intro-video-overlay video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .intro-video-overlay .tap-hint {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 30px;
+            animation: pulse-hint 2s ease infinite;
+        }
+
+        @keyframes pulse-hint {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         /* Sound Prompt */
@@ -1287,9 +1306,10 @@
 <body>
     <!-- Intro Video (plays for 7 seconds on welcome) -->
     <div id="introVideoOverlay" class="intro-video-overlay">
-        <video id="introMusic" autoplay muted playsinline>
+        <video id="introVideo" autoplay muted playsinline>
             <source src="intro-music.mp4" type="video/mp4">
         </video>
+        <p class="tap-hint">🔊 Tap for sound</p>
     </div>
 
     <!-- Background Music - Wedding Card (plays after intro) -->
@@ -1687,47 +1707,50 @@
         });
 
         // Video & Music Control
-        const introVideo = document.getElementById('introMusic');
+        const introVideo = document.getElementById('introVideo');
         const introOverlay = document.getElementById('introVideoOverlay');
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
         let isPlaying = false;
 
-        // When video ends, hide overlay and play wedding music
-        introVideo.addEventListener('ended', function() {
+        // Function to show invitation card
+        function showInvitationCard() {
             introOverlay.classList.add('hidden');
+            introVideo.pause();
             bgMusic.volume = 0.5;
             bgMusic.play().then(() => {
                 isPlaying = true;
                 musicBtn.classList.add('playing');
-            }).catch(err => {});
-        });
+            }).catch(err => {
+                console.log('Music autoplay blocked');
+            });
+        }
 
-        // Also hide after 7 seconds in case video is longer
+        // When video ends, show invitation card
+        introVideo.addEventListener('ended', showInvitationCard);
+
+        // Also show card after 7 seconds (backup)
         setTimeout(() => {
             if (!introOverlay.classList.contains('hidden')) {
-                introOverlay.classList.add('hidden');
-                introVideo.pause();
-                bgMusic.volume = 0.5;
-                bgMusic.play().then(() => {
-                    isPlaying = true;
-                    musicBtn.classList.add('playing');
-                }).catch(err => {});
+                showInvitationCard();
             }
         }, 7500);
 
         // Try to play video on load
         window.addEventListener('load', () => {
             introVideo.play().catch(err => {
-                // If autoplay blocked, hide overlay immediately
-                introOverlay.classList.add('hidden');
+                // If autoplay blocked, show invitation immediately
+                showInvitationCard();
             });
         });
 
-        // Allow tap to unmute/play
+        // Tap to unmute video
         introOverlay.addEventListener('click', () => {
             introVideo.muted = false;
             introVideo.play();
+            // Hide tap hint
+            const tapHint = introOverlay.querySelector('.tap-hint');
+            if (tapHint) tapHint.style.display = 'none';
         });
 
         function toggleMusic() {
@@ -1744,7 +1767,7 @@
 
         // Copy link function
         function copyLink() {
-            const url = 'https://gautamsingh1997.github.io/anshu-gautam-wedding/';
+            const url = 'https://gautam-anshu.github.io/anshu-gautam-wedding/';
             navigator.clipboard.writeText(url).then(() => {
                 const feedback = document.getElementById('copyFeedback');
                 feedback.classList.add('show');
