@@ -1149,9 +1149,14 @@
     </style>
 </head>
 <body>
-    <!-- Background Music - Devotional Song -->
+    <!-- Intro Music (plays for 7 seconds on welcome) -->
+    <video id="introMusic" style="display:none;">
+        <source src="intro-music.mp4" type="video/mp4">
+    </video>
+
+    <!-- Background Music - Wedding Card (plays after intro) -->
     <audio id="bgMusic" loop>
-        <source src="ujjain_shiv_bhakti.mp3" type="audio/mpeg">
+        <source src="wedding-card.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Welcome Overlay -->
@@ -1540,28 +1545,46 @@
         });
 
         // Music Control
+        const introMusic = document.getElementById('introMusic');
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
         const welcomeOverlay = document.getElementById('welcomeOverlay');
         let isPlaying = false;
+        let introTimeout;
 
         function enterSite() {
-            welcomeOverlay.classList.add('hidden');
-            bgMusic.volume = 0.5;
-            bgMusic.play().then(() => {
+            // Play intro music first (for 7 seconds)
+            introMusic.volume = 0.6;
+            introMusic.play().then(() => {
                 isPlaying = true;
                 musicBtn.classList.add('playing');
             }).catch(err => {
-                console.log('Autoplay prevented:', err);
+                console.log('Intro music error:', err);
             });
+
+            // Hide welcome overlay
+            welcomeOverlay.classList.add('hidden');
+
+            // After 7 seconds, switch to wedding music
+            introTimeout = setTimeout(() => {
+                introMusic.pause();
+                introMusic.currentTime = 0;
+                bgMusic.volume = 0.5;
+                bgMusic.play().catch(err => {
+                    console.log('Background music error:', err);
+                });
+            }, 7000);
         }
 
         function toggleMusic() {
             if (isPlaying) {
+                introMusic.pause();
                 bgMusic.pause();
+                clearTimeout(introTimeout);
                 isPlaying = false;
                 musicBtn.classList.remove('playing');
             } else {
+                // Resume with wedding music
                 bgMusic.play();
                 isPlaying = true;
                 musicBtn.classList.add('playing');
