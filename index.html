@@ -980,6 +980,78 @@
         .welcome-overlay .music-note span {
             margin-right: 5px;
         }
+
+        /* Ganpati Section */
+        .ganpati-section {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .ganpati-idol {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(212, 168, 83, 0.4), 0 0 60px rgba(212, 168, 83, 0.2);
+            animation: divine-glow 3s ease-in-out infinite;
+        }
+
+        .ganpati-idol img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .ganpati-idol svg {
+            width: 80px;
+            height: 80px;
+            fill: var(--primary-dark);
+        }
+
+        @keyframes divine-glow {
+            0%, 100% { 
+                box-shadow: 0 10px 40px rgba(212, 168, 83, 0.4), 0 0 60px rgba(212, 168, 83, 0.2);
+            }
+            50% { 
+                box-shadow: 0 10px 50px rgba(212, 168, 83, 0.6), 0 0 80px rgba(212, 168, 83, 0.4);
+            }
+        }
+
+        .ganpati-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        .om-symbol {
+            font-size: 2.5rem;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+            display: block;
+            text-shadow: 0 0 20px rgba(212, 168, 83, 0.5);
+        }
+
+        .shubh-vivah {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 0.5rem;
+        }
+
+        .flower-divider {
+            color: var(--gold-light);
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
@@ -990,13 +1062,35 @@
 
     <!-- Welcome Overlay -->
     <div class="welcome-overlay" id="welcomeOverlay">
-        <div class="welcome-icon">💕</div>
+        <!-- Ganpati Section -->
+        <div class="ganpati-section">
+            <span class="om-symbol">ॐ</span>
+            <div class="ganpati-idol">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Ganesha silhouette -->
+                    <ellipse cx="50" cy="65" rx="25" ry="20" fill="currentColor"/>
+                    <circle cx="50" cy="38" r="22" fill="currentColor"/>
+                    <ellipse cx="30" cy="35" rx="12" ry="15" fill="currentColor"/>
+                    <ellipse cx="70" cy="35" rx="12" ry="15" fill="currentColor"/>
+                    <path d="M50 50 Q45 70 40 85 Q42 88 50 85 Q58 88 60 85 Q55 70 50 50" fill="currentColor"/>
+                    <circle cx="44" cy="35" r="3" fill="#5C0D24"/>
+                    <circle cx="56" cy="35" r="3" fill="#5C0D24"/>
+                    <ellipse cx="50" cy="18" rx="8" ry="6" fill="currentColor"/>
+                    <circle cx="50" cy="12" r="4" fill="#D4A853"/>
+                </svg>
+            </div>
+            <p class="ganpati-text">|| श्री गणेशाय नमः ||</p>
+            <p class="shubh-vivah">शुभ विवाह</p>
+        </div>
+        
+        <div class="flower-divider">✿ ❀ ✿</div>
+        
         <h2>Gautam & Anshu</h2>
         <p>Request the pleasure of your company</p>
         <button class="enter-btn" onclick="enterSite()">
             Open Invitation
         </button>
-        <p class="music-note"><span>🎵</span> Tap to enter with music</p>
+        <p class="music-note"><span>🎵</span> Tap to enter with Ganpati Vandana</p>
     </div>
 
     <!-- Music Control Button -->
