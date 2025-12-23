@@ -489,6 +489,62 @@
             font-style: italic;
         }
 
+        /* Side-wise Events */
+        .events-side-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--gold-light);
+            text-align: center;
+            margin: 2rem 0 1rem;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .events-side-title .icon {
+            margin-right: 8px;
+        }
+
+        .event-card.groom-side {
+            border-left: 4px solid #4A90D9;
+        }
+
+        .event-card.bride-side {
+            border-left: 4px solid #E91E8C;
+        }
+
+        .event-card.both-sides {
+            border-left: 4px solid var(--gold);
+        }
+
+        .side-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .side-badge.groom {
+            background: rgba(74, 144, 217, 0.3);
+            color: #7BB3E8;
+        }
+
+        .side-badge.bride {
+            background: rgba(233, 30, 140, 0.3);
+            color: #F06EAD;
+        }
+
+        .side-badge.both {
+            background: rgba(212, 168, 83, 0.3);
+            color: var(--gold-light);
+        }
+
         /* Journey Section */
         .journey-section {
             padding: 5rem 1.5rem;
@@ -1220,7 +1276,9 @@
             <h2 class="section-title">Wedding Events</h2>
             
             <div class="events-timeline">
-                <div class="event-card animate-on-scroll">
+                <!-- Tilak -->
+                <div class="event-card both-sides animate-on-scroll">
+                    <span class="side-badge both">Both Families</span>
                     <div class="event-icon">💍</div>
                     <h3 class="event-name">Tilak</h3>
                     <p class="event-date">Friday, February 20, 2026</p>
@@ -1228,25 +1286,46 @@
                     <p class="event-desc">The sacred tilak ceremony marking the formal engagement</p>
                 </div>
 
-                <div class="event-card animate-on-scroll">
+                <!-- Groom's Side Events -->
+                <p class="events-side-title"><span class="icon">🤵🏻</span>Gautam's Side - Dubhal, Gaya</p>
+
+                <div class="event-card groom-side animate-on-scroll">
+                    <span class="side-badge groom">Groom's Side</span>
                     <div class="event-icon">🌺</div>
                     <h3 class="event-name">Haldi</h3>
                     <p class="event-date">Monday, February 23, 2026</p>
-                    <p class="event-venue">📍 Both Families</p>
-                    <p class="event-desc">Traditional haldi ceremony filled with turmeric, laughter, and blessings</p>
+                    <p class="event-venue">📍 Dubhal, Gaya</p>
+                    <p class="event-desc">Traditional haldi ceremony for the groom with turmeric, laughter, and blessings</p>
                 </div>
 
-                <div class="event-card animate-on-scroll">
-                    <div class="event-icon">💃🕺</div>
-                    <h3 class="event-name">Mehendi & Sangeet</h3>
+                <!-- Bride's Side Events -->
+                <p class="events-side-title"><span class="icon">👰🏻</span>Anshu's Side - Madanpur</p>
+
+                <div class="event-card bride-side animate-on-scroll">
+                    <span class="side-badge bride">Bride's Side</span>
+                    <div class="event-icon">💅</div>
+                    <h3 class="event-name">Mehendi</h3>
+                    <p class="event-date">Monday, February 23, 2026 | Evening</p>
+                    <p class="event-venue">📍 Madanpur</p>
+                    <p class="event-desc">Beautiful mehendi ceremony with intricate designs and celebration</p>
+                </div>
+
+                <div class="event-card bride-side animate-on-scroll">
+                    <span class="side-badge bride">Bride's Side</span>
+                    <div class="event-icon">🌺</div>
+                    <h3 class="event-name">Haldi</h3>
                     <p class="event-date">Tuesday, February 24, 2026</p>
                     <p class="event-venue">📍 Madanpur</p>
-                    <p class="event-desc">An evening of beautiful mehendi, music, dance, and celebration</p>
+                    <p class="event-desc">Traditional haldi ceremony for the bride filled with turmeric and blessings</p>
                 </div>
 
-                <div class="event-card animate-on-scroll">
+                <!-- Wedding -->
+                <p class="events-side-title"><span class="icon">💒</span>Wedding Ceremony</p>
+
+                <div class="event-card both-sides animate-on-scroll">
+                    <span class="side-badge both">Grand Celebration</span>
                     <div class="event-icon">🕉️</div>
-                    <h3 class="event-name">Wedding Ceremony</h3>
+                    <h3 class="event-name">Wedding & Reception</h3>
                     <p class="event-date">Wednesday, February 25, 2026</p>
                     <p class="event-venue">📍 Madanpur</p>
                     <p class="event-desc">Join us for the sacred wedding ceremony as we take our vows around the holy fire</p>
