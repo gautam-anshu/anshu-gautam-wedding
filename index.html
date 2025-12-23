@@ -1950,19 +1950,36 @@
             
             <div class="gallery-scroll-container">
                 <div class="gallery-grid">
+                    <!-- New Photos First -->
                     <div class="gallery-item" onclick="openLightbox(0)">
-                        <img src="photo1.jpg" alt="Gautam & Anshu" loading="lazy">
+                        <img src="photo11.jpeg" alt="Gautam & Anshu" loading="lazy">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(1)">
-                        <img src="photo2.jpg" alt="Gautam & Anshu" loading="lazy">
+                        <img src="photo12.jpeg" alt="Gautam & Anshu" loading="lazy">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(2)">
-                        <img src="photo3.jpg" alt="Gautam & Anshu" loading="lazy">
+                        <img src="photo13.jpeg" alt="Gautam & Anshu" loading="lazy">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(3)">
-                        <img src="photo4.jpg" alt="Gautam & Anshu" loading="lazy">
+                        <img src="photo14.jpeg" alt="Gautam & Anshu" loading="lazy">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(4)">
+                        <img src="photo-15.jpeg" alt="Gautam & Anshu" loading="lazy">
+                    </div>
+                    <!-- Existing Photos -->
+                    <div class="gallery-item" onclick="openLightbox(5)">
+                        <img src="photo1.jpg" alt="Gautam & Anshu" loading="lazy">
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(6)">
+                        <img src="photo2.jpg" alt="Gautam & Anshu" loading="lazy">
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(7)">
+                        <img src="photo3.jpg" alt="Gautam & Anshu" loading="lazy">
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(8)">
+                        <img src="photo4.jpg" alt="Gautam & Anshu" loading="lazy">
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(9)">
                         <img src="photo5.jpg" alt="Gautam & Anshu" loading="lazy">
                     </div>
                 </div>
@@ -1976,7 +1993,7 @@
             <button class="lightbox-nav lightbox-prev" onclick="changeSlide(-1)">❮</button>
             <img src="" alt="Gallery Image" id="lightboxImg">
             <button class="lightbox-nav lightbox-next" onclick="changeSlide(1)">❯</button>
-            <p class="lightbox-counter"><span id="currentSlide">1</span> / 5</p>
+            <p class="lightbox-counter"><span id="currentSlide">1</span> / 10</p>
         </div>
 
         <!-- Share Section -->
@@ -2324,7 +2341,7 @@
         }
 
         // Lightbox Gallery
-        const photos = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg'];
+        const photos = ['photo11.jpeg', 'photo12.jpeg', 'photo13.jpeg', 'photo14.jpeg', 'photo-15.jpeg', 'photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg'];
         let currentIndex = 0;
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
